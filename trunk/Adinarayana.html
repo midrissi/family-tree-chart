@@ -1,0 +1,138 @@
+
+<!-- saved from url=(0086)http://www.fluxus.com.ve/gorka/lib_gg_orgchart/lib_gg_orgchart_v04_sample.php?sample=1 -->
+<html><head><meta http-equiv="Content-Type" content="text/html">
+
+	<!-- first include these two library files -->
+	<script type="text/javascript" src="./JavaScripts/raphael-min.js"></script>  
+	<script type="text/javascript" src="./JavaScripts/family-chart.js"></script>  
+
+	<!-- now define the organizational chart content and style -->
+	<script type="text/javascript">
+
+
+		// there are provided three sample organizational charts
+		// change this variable to show any of these
+		//
+		//var oc_sample_data_to_use = 1;
+		var oc_sample_data_to_use = 1;
+
+
+		// SAMPLE DATA #1
+		// in this sample nodes haven't 'id', so define oc_style.box_click_handler : null
+		// "type" attribute for nodes can be: "subordinate", "staff", "collateral"
+		//
+		var oc_data_1 = {
+			title : 'My Family',   // not used
+			root : {
+				id : 'Adi.html',
+				title : 'Adinarayana Setty', 
+				subtitle: 'Pinupolu',
+				Photo:"./Photos/Adi.JPG",
+				DOB:"15-Aug-1941",
+				children : [
+					{ title : 'Saraswathamma', subtitle: 'Pinupolu', type : 'collateral', DOB:"5-May-1947", Photo:"./Photos/Saru.JPG",},
+					{
+						title : 'Annapurna', subtitle: 'Kuppam Narasanna Gari', Photo:"./Photos/Purna.JPG", DOB:"13-May-1967, Jammalamadugu", 
+						children : [
+							{ title : 'Amarnath', subtitle: 'Kuppam Narasanna Gari', type : 'collateral' , MARR:"1-Sept-1985, Vempalli",},
+							{ title : 'Abhishek' , subtitle: 'Kuppam Narasanna Gari', DOB:"9-Aug-1987, Vempalli", Photo:"./Photos/Abhi.JPG", },
+							{ title : 'Sree Sowmya' , subtitle: 'Kuppam Narasanna Gari', DOB:"11-Sept-1990, Vempalli", Photo:"./Photos/Sowmya.JPG",},
+						]
+					},
+					{
+						title : 'Prasanna Rani', subtitle: 'Bingumalla', DOB:"1-May-1969, Vempalli", Photo:"./Photos/Rani.JPG",
+						children : [
+							{ title : 'Satyanarayana setty', subtitle: 'Bingumalla', MARR:"26-Oct-1991, Vempalli", type : 'collateral' , Photo:"./Photos/Satya.JPG",},
+							{ title : 'Abhinay' , subtitle: 'Bingumalla', DOB:"2-Aug-1992, Vempalli", Photo:"./Photos/Abhinay.JPG",},
+							{ title : 'Sneha Sree' ,subtitle: 'Bingumalla', DOB:"10-Aug-1995", Photo:"./Photos/Sneha.JPG",},
+						]
+					},
+					{
+						title : 'Sree Devi', subtitle: 'Pabbathi', Photo:"./Photos/Devi.JPG", DOB:"15-Apr-1971, Vempalli",
+						children: [
+							{ title : 'Suresh', subtitle: 'Pabbathi', DOB:"20-Apr-1966, Jammalamadugu", type : 'collateral', MARR:"4-Aug-1993, Vempalli",},
+							{ title : 'Ramya Sree' ,subtitle: 'Pabbathi', DOB:"23-May-1994, Vempalli", Photo:"./Photos/Ramya.JPG",},
+							{ title : 'Jaya Sree' , subtitle: 'Pabbathi', DOB:"4-Dec-1997, Vempalli", Photo:"./Photos/Jaya.JPG",},
+							{ title : 'Karthik' , subtitle: 'Pabbathi', DOB:"13-Aug-1904, Pulivendula", Photo:"./Photos/Chinnu.JPG",},
+						]
+					},
+					{
+						title : 'Venkata Sadhak Kumar', subtitle: 'Pinupolu', DOB:"23-Aug-1977", Photo:"./Photos/Sadhak.JPG",
+						children: [
+							{ title : 'Nirupama', subtitle: 'Pinupolu', type : 'collateral', DOB:"23-Aug-1977", MARR:"12-Dec-1999, Rayachoti", Photo:"./Photos/Nirupama.JPG", },
+							{ title : 'Harshitha', subtitle: 'Pinupolu', DOB:"23-Aug-1977", Photo:"./Photos/Harshi.JPG",},
+							{ title : 'Gokul' , subtitle: 'Pinupolu', DOB:"23-Aug-1977", Photo:"./Photos/Gokul.JPG",},
+						]
+					},
+					{
+						title : 'Venkata Kishore', subtitle: 'Pinupolu', Email:'kissii@gmail.com', Photo:"./Photos/Kissii.JPG", DOB:"23-Aug-1977, Kadapa",
+						children: [
+							{ title : 'Durga Bhavani', subtitle: 'Perumalla', type : 'collateral', Email:'bhavi236@gmail.com', DOB:"18-Sept-1963", MARR:"08-Nov-2008, Kadapa", Photo:"./Photos/Bhavi.JPG", },
+							{ title : 'Chinmaya Pranathi',subtitle: 'Pinupolu', Email:'pcpranu@gmail.com', DOB:"22-Oct-2010, Kadapa", Photo:"./Photos/Pranu.JPG",},
+						]
+					}
+				]
+			}	
+		}
+
+
+		// ORG CHART CONTENT
+		// must be in 'oc_data' global variable
+		var oc_data = (oc_sample_data_to_use == 1 ? oc_data_1 : (oc_sample_data_to_use == 2 ? oc_data_2 : oc_data_3));
+
+
+		// ORG CHART STYLES
+		// must be in 'oc_style' global variable
+		//
+		var oc_style = {
+			container          : 'oc_container',         // name of the DIV where the chart will be drawn
+			vline              : 10,                     // size of the smallest vertical line of connectors
+			hline              : 10,                     // size of the smallest horizontal line of connectors
+			inner_padding      : 10,                     // space from text to box border
+			box_color          : '#aaf',                 // fill color of boxes
+			box_color_hover    : '#faa',                 // fill color of boxes when mouse is over them
+			box_border_color   : '#008',                 // stroke color of boxes
+			line_color         : '#f44',                 // color of connectors
+			title_color        : '#000',                 // color of titles
+			subtitle_color     : '#707',                 // color of subtitles
+			title_font_size    : 12,                     // size of font used for displaying titles inside boxes
+			subtitle_font_size : 10,                     // size of font used for displaying subtitles inside boxes
+			Email_font_size    : 10,                     // size of font used for displaying Email inside boxes
+			title_char_size    : [ 6, 12 ],              // size (x, y) of a char of the font used for displaying titles
+			subtitle_char_size : [ 5, 10 ],              // size (x, y) of a char of the font used for displaying subtitles
+			Email_char_size    : [ 5, 10 ],              // size (x, y) of a char of the font used for displaying Email
+			max_text_width     : 20,                     // max width (in chars) of each line of text ('0' for no limit) 
+			box_click_handler  : oc_box_click_handler,   // handler (function) called on click on boxes (set to null if no handler)
+			Photo_Availability : 1,			     // Photo height of each box
+		};
+
+
+		// set to true if you want to debug the library
+		//
+		var OC_DEBUG = false;
+
+
+		// box click handlers
+		//
+		function oc_box_click_handler (event, box) {
+			if (box.oc_id !== undefined)
+				alert('clicked on node with ID = ' + box.oc_id);
+		}
+
+
+		// call function 'oc_render()' when you are ready to draw the chart
+		// chart will be rendered into a DIV with id = 'oc_container' (or as specified in oc_style)
+		//
+		window.onload = oc_render;
+
+
+	</script>
+
+</head>  
+<body>  
+
+	<div id="oc_container"></div>  
+
+  
+
+</body></html>
